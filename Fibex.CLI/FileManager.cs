@@ -14,7 +14,7 @@ namespace Fibex.CLI
                 {
                     var file = new FileModel(filePath, targetDirectory, output);
                     if (!Directory.Exists(file.DestDirectory)) Directory.CreateDirectory(file.DestDirectory);
-                    File.Move(file.CurrentPath, file.DestDirectory + file.Name);
+                    if (!File.Exists(file.DestDirectory + file.Name)) File.Move(file.CurrentPath, file.DestDirectory + file.Name);
                 }
             }
             else
