@@ -6,12 +6,12 @@ namespace Fibex.CLI
     {
         private static readonly FileManager _fileManager = new FileManager();
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             bool outputSelected;
             if (args.Length == 0)
             {
-                //todo default information
+                Default();
             }
             else if (args[0] == "do")
             {
@@ -22,21 +22,41 @@ namespace Fibex.CLI
                 }
                 else
                 {
-                    // todo warn
+                    Warn("You should pass target directory after the 'do' command");
+                    Info("do {targetDirectory}\ndo {targetDirectory} -o || --output");
                 }
             }
             else if (args[0] == "undo")
             {
-                //todo: undo
-            }
-            else if (args[0] == "--help" || args[0] == "-h")
-            {
-                //todo default information
+                Warn("undo command is not useable now.");
             }
             else
             {
-                // todo warn
+                Warn(args[0] + " is unknown");
             }
+        }
+        public static void Warn(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
+        public static void Info(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
+        public static void Default()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("do command: Process the directory and Group the files which are in directory\n    " +
+            "It needs a target directory to process files and after then to group them.\n    " +
+            "do {targetDirectory}\n    do {targetDirectory} -o || --output\n");
+            Console.WriteLine("undo command: Restore the directory\n    " +
+            "It needs a target directory to get back the do command\n    " +
+            "undo {targetDirectory}");
+            Console.ResetColor();
         }
     }
 }
