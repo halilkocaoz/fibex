@@ -12,7 +12,7 @@ namespace Fibex.CLI.Extension
                 Directory.CreateDirectory(file.DestDirectory);
             }
         }
-        public static void Move(this FileModel file)
+        public static void Do(this FileModel file)
         {
             CreateDirectoryByFile(file);
             if (!File.Exists(file.DestPath))
@@ -25,6 +25,21 @@ namespace Fibex.CLI.Extension
                 Program.Warn(file.Name + " could not move.");
             }
         }
+        public static void Undo(this FileModel file)
+        {
+            var currentPathName = Directory.GetParent(file.CurrentPath).Name;
+            var currentPathFullDirectory = Directory.GetParent(file.CurrentPath).FullName;
 
+            var previousPath = !file.CurrentPath.Contains("output")
+            ? Directory.GetParent(file.CurrentPath).Parent.FullName
+            : Directory.GetParent(file.CurrentPath).Parent.Parent.FullName;
+
+            if (currentPathName == file.Extension)
+                File.Move(file.CurrentPath, previousPath + "/" + file.Name);
+
+            var currentPathFiles = Directory.GetFiles(currentPathFullDirectory);
+            if (currentPathFiles.Length == 0)
+                Directory.Delete(currentPathFullDirectory);
+        }
     }
 }

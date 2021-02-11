@@ -5,15 +5,18 @@ namespace Fibex.CLI.Model
 {
     public class FileModel : IDisposable
     {
-        public FileModel(string filePath, string targetDirectory, bool output)
+        public FileModel(string filePath, bool output, string targetDirectory = null)
         {
             if (File.Exists(filePath))
             {
                 Name = Path.GetFileName(filePath);
                 Extension = Path.GetExtension(filePath).Replace(".", "");
                 CurrentPath = filePath;
-                DestDirectory = output ? targetDirectory + "/output/" + Extension + "/" : targetDirectory + "/" + Extension + "/";
-                DestPath = DestDirectory + Name;
+                if (!string.IsNullOrEmpty(targetDirectory))
+                {
+                    DestDirectory = output ? targetDirectory + "/output/" + Extension + "/" : targetDirectory + "/" + Extension + "/";
+                    DestPath = DestDirectory + Name;
+                }
             }
         }
         public string CurrentPath { get; set; }
