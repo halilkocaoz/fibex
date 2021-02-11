@@ -2,7 +2,7 @@
 fibex is a cli to group files by their extensions.
 
 ## Demo
-![Fibex](https://github.com/halilkocaoz/fibex/blob/main/demo.gif "Fibex")
+![fibex-demo](https://github.com/halilkocaoz/fibex/blob/main/demo.gif "fibex-demo")
 ## Commands
 * do : Processing the directory and Grouping the files at target directory<br>
 ``do {targetDirectory}`` 
@@ -11,4 +11,4 @@ fibex is a cli to group files by their extensions.
 * undo(isn't useable now) : Restoring the directory: get back what 'do command' did<br>
 ``undo {targetDirectory}``
 ## Installation
-Here is Linux, Windows and MacOS executables.
+[Here](https://github.com/halilkocaoz/fibex/releases) is Linux, Windows and MacOS executables.
