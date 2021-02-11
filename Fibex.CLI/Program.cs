@@ -4,8 +4,6 @@ namespace Fibex.CLI
 {
     class Program
     {
-        private static readonly FileManager _fileManager = new FileManager();
-
         private static void Main(string[] args)
         {
             bool outputSelected;
@@ -18,7 +16,7 @@ namespace Fibex.CLI
                 if (args.Length > 1)
                 {
                     outputSelected = args.Length > 2 && (args[2] == "-o" || args[2] == "--output");
-                    _fileManager.Process(args[1], outputSelected);
+                    Commands.Do(args[1], outputSelected);
                 }
                 else
                 {
@@ -28,7 +26,7 @@ namespace Fibex.CLI
             }
             else if (args[0] == "undo")
             {
-                Warn("undo command is not useable now.");
+                Commands.Undo("");
             }
             else
             {
