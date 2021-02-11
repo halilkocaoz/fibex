@@ -11,13 +11,8 @@ namespace Fibex.CLI
             {
                 var filePaths = Directory.GetFiles(targetDirectory);
                 if (filePaths.Length != 0)
-                {
                     foreach (var filePath in filePaths)
-                    {
-                        FileModel file = new FileModel(filePath, targetDirectory, output);
-                        file.Move();
-                    }
-                }
+                        new FileModel(filePath, output, targetDirectory).Do();
                 else
                     Program.Info("There is no file to group : " + targetDirectory);
             }
@@ -26,7 +21,29 @@ namespace Fibex.CLI
         }
         public static void Undo(string targetDirectory)
         {
-            Program.Warn("undo command is not useable now.");
+            if (Directory.Exists(targetDirectory))
+            {
+                var directories = Directory.GetDirectories(targetDirectory);
+                var isInOutput = directories.Length > 0 && directories[0].Contains("output");
+                if (isInOutput)
+                    directories = Directory.GetDirectories(targetDirectory + "/output/");
+
+                if (directories.Length > 0)
+                {
+                    foreach (var directory in directories)
+                    {
+                        var directoryFiles = Directory.GetFiles(directory);
+                        foreach (var filePath in directoryFiles)
+                            new FileModel(filePath, false).Undo();
+                    }
+                }
+                else
+                {
+                    Program.Warn("There is not directory");
+                }
+            }
+            else
+                Program.Warn(targetDirectory + " is not found.");
         }
     }
 }

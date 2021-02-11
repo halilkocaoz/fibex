@@ -26,11 +26,20 @@ namespace Fibex.CLI
             }
             else if (args[0] == "undo")
             {
-                Commands.Undo("");
+                if (args.Length > 1)
+                {
+                    Commands.Undo(args[1]);
+                }
+                else
+                {
+                    Warn("You should pass target directory after the 'undo' command");
+                    Info("undo {targetDirectory}");
+                }
             }
             else
             {
                 Warn(args[0] + " is unknown");
+                Default();
             }
         }
         public static void Warn(string message)
@@ -41,13 +50,13 @@ namespace Fibex.CLI
         }
         public static void Info(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine(message);
             Console.ResetColor();
         }
         public static void Default()
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("do command: Process the directory and Group the files which are in directory\n    " +
             "It needs a target directory to process files and after then to group them.\n    " +
             "do {targetDirectory}\n    do {targetDirectory} -o || --output\n");
