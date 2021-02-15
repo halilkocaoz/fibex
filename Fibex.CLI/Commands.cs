@@ -12,7 +12,7 @@ namespace Fibex.CLI
                 var filePaths = Directory.GetFiles(targetDirectory);
                 if (filePaths.Length != 0)
                     foreach (var filePath in filePaths)
-                        new FileModel(filePath, output, targetDirectory).Do();
+                        new FileModel(filePath, output, targetDirectory).Move();
                 else
                     Program.Info("There is no file to group : " + targetDirectory);
             }
@@ -26,7 +26,10 @@ namespace Fibex.CLI
                 var directories = Directory.GetDirectories(targetDirectory);
                 var isInOutput = directories.Length > 0 && directories[0].Contains("output");
                 if (isInOutput)
-                    directories = Directory.GetDirectories(targetDirectory + "/output/");
+                {
+                    targetDirectory = targetDirectory + "/output/";
+                    directories = Directory.GetDirectories(targetDirectory);
+                }
 
                 if (directories.Length > 0)
                 {
@@ -34,13 +37,14 @@ namespace Fibex.CLI
                     {
                         var directoryFiles = Directory.GetFiles(directory);
                         foreach (var filePath in directoryFiles)
-                            new FileModel(filePath, false).Undo();
+                            new FileModel(filePath, false).Revert();
                     }
+
+                    if (isInOutput && Directory.GetDirectories(targetDirectory).Length == 0)
+                        Directory.Delete(targetDirectory);
                 }
                 else
-                {
-                    Program.Warn("There is not directory");
-                }
+                    Program.Warn("There is nothing to revert");
             }
             else
                 Program.Warn(targetDirectory + " is not found.");

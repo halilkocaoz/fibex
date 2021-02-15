@@ -12,7 +12,7 @@ namespace Fibex.CLI.Extension
                 Directory.CreateDirectory(file.DestDirectory);
             }
         }
-        public static void Do(this FileModel file)
+        public static void Move(this FileModel file)
         {
             CreateDirectoryByFile(file);
             if (!File.Exists(file.DestPath))
@@ -21,11 +21,9 @@ namespace Fibex.CLI.Extension
                 Program.Info(file.Name + " moved.");
             }
             else
-            {
-                Program.Warn(file.Name + " could not move.");
-            }
+                Program.Warn(file.Name + " could not move, because there is file with same name.");
         }
-        public static void Undo(this FileModel file)
+        public static void Revert(this FileModel file)
         {
             var currentPathName = Directory.GetParent(file.CurrentPath).Name;
             var currentPathFullDirectory = Directory.GetParent(file.CurrentPath).FullName;
@@ -34,8 +32,18 @@ namespace Fibex.CLI.Extension
             ? Directory.GetParent(file.CurrentPath).Parent.FullName
             : Directory.GetParent(file.CurrentPath).Parent.Parent.FullName;
 
+            var pathToRevert = previousPath + "/" + file.Name;
+
             if (currentPathName == file.Extension)
-                File.Move(file.CurrentPath, previousPath + "/" + file.Name);
+            {
+                if (!File.Exists(pathToRevert))
+                {
+                    File.Move(file.CurrentPath, pathToRevert);
+                    Program.Info(file.Name + " was reverted.");
+                }
+                else
+                    Program.Warn(file.Name + " could not revert, because there is file with same name.");
+            }
 
             var currentPathFiles = Directory.GetFiles(currentPathFullDirectory);
             if (currentPathFiles.Length == 0)
