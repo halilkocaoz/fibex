@@ -20,7 +20,7 @@ namespace Fibex.CLI
                 }
                 else
                 {
-                    Warn("You should pass target directory after the 'do' command");
+                    Warn("You should pass the target directory after the 'do' command");
                     Info("do {targetDirectory}\ndo {targetDirectory} -o || --output");
                 }
             }
@@ -32,13 +32,13 @@ namespace Fibex.CLI
                 }
                 else
                 {
-                    Warn("You should pass target directory after the 'undo' command");
+                    Warn("You should pass the target directory after the 'undo' command");
                     Info("undo {targetDirectory}");
                 }
             }
             else
             {
-                Warn(args[0] + " is unknown");
+                Warn(args[0] + " is unknown command");
                 Default();
             }
         }
@@ -60,8 +60,8 @@ namespace Fibex.CLI
             Console.WriteLine("do command: Process the directory and Group the files which are in directory\n    " +
             "It needs a target directory to process files and after then to group them.\n    " +
             "do {targetDirectory}\n    do {targetDirectory} -o || --output\n");
-            Console.WriteLine("undo command: Restore the directory\n    " +
-            "It needs a target directory to get back the do command\n    " +
+            Console.WriteLine("undo command: Revert the directory\n    " +
+            "It needs a target directory to revert \n    " +
             "undo {targetDirectory}");
             Console.ResetColor();
         }
