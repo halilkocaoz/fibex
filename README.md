@@ -11,4 +11,4 @@ fibex is a cli to group files by their extensions.
 * undo : Revert the directory <br>
 ``undo {targetDirectory}``
 ## Installation
-[Here](https://github.com/halilkocaoz/fibex/releases) is Linux, Windows and MacOS executables.
+[Here](https://github.com/halilkocaoz/fibex/releases) is Linux, Windows and macOS executables.
